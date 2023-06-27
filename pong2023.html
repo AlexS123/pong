@@ -23,6 +23,7 @@
         let raquetY = 160;
         let downPressed = false;
         let upPressed = false;
+        let puntosP1 = 0;
 
         //Callback: pasar una función como parámetro a otra
         document.addEventListener("keydown", keyDownHandler, false);
@@ -62,7 +63,7 @@
         function drawRaquet()
         {
             ctx.beginPath();
-            ctx.rect(raquetX, raquetY, 10, 50);
+            ctx.rect(raquetX, raquetY, 10, 120);
             ctx.rect(5, 160, 10, 50);
             ctx.fillStyle = "#0095DD";
             ctx.fill();
@@ -71,17 +72,41 @@
 
         function colissions()
         {
-            let distanceX = (raquetX) - x;
+            let d = 0;
+            let d2 = 0;
+            let distanceX = (raquetX + 5) - x;
             
             if(distanceX < 0)
                 distanceX = -distanceX;
 
-            let distanceY = raquetY - y;
+            let distanceY = (raquetY + 30) - y;
 
             if(distanceY < 0)
                 distanceY = -distanceY;
 
-            if(distanceX < 30 && distanceY < 30)
+            d = (distanceX*distanceX) + (distanceY*distanceY);
+            d = Math.sqrt(d);
+            
+
+            if(d < 30)
+            {
+                dx = dx*(-1);
+            }
+            let distanceX2 = (raquetX + 5) - x;
+            
+            if(distanceX < 0)
+                distanceX2 = -distanceX2;
+
+            let distanceY2 = (raquetY + 90) - y;
+
+            if(distanceY < 0)
+                distanceY2 = -distanceY2;
+
+            d2 = (distanceX2*distanceX2) + (distanceY2*distanceY2);
+            d2 = Math.sqrt(d2);
+            
+
+            if(d2 < 30)
             {
                 dx = dx*(-1);
             }
@@ -91,7 +116,7 @@
         function drawTexto(){
             //ctx.translate(10, 50);
             ctx.fillStyle = "Red";
-            ctx.fillText("Jugador 1: 40", 0, 10);
+            ctx.fillText("Jugador 1: " + puntosP1, 0, 10);
         }
 
         function draw()
@@ -111,6 +136,9 @@
             {
                 dy = dy*(-1);
             }
+            //Gol jugador 1
+            if (x > 480)
+                puntosP1++;
 
             x = x + dx;
             y = y + dy;
